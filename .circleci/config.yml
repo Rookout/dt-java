@@ -104,7 +104,7 @@ jobs:
   
   push_demo_image:
     docker:
-      - image: cimg/openjdk:8.0-browsers
+      - image: google/cloud-sdk:latest
     working_directory: ~/demo
     steps:
       - *load_cache
@@ -112,7 +112,7 @@ jobs:
       - *load_version
       - *setup_make
       - *setup_docker_layer_caching
-      - *docker_login
+      - *auth_google
       - run: make upload
 
   deploy_demo_argo:
