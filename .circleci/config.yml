@@ -182,7 +182,7 @@ workflows:
           <<: *filter_master
       - deploy_demo_argo:
           requires:
-            - build_and_push_demo_image
+            - push_demo_image
           <<: *filter_master
       - test_demo_servers_up:
           requires:
