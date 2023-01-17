@@ -88,21 +88,8 @@ jobs:
           paths:
             - build_tools
             - workspace/VERSION
-
-  build_demo_image:
-    docker:
-      - image: cimg/openjdk:8.0-browsers
-    working_directory: ~/demo
-    steps:
-      - *load_cache
-      - *setup_workspace
-      - *load_version
-      - *setup_make
-      - *setup_docker_layer_caching
-      - *docker_login_dt
-      - run: make build-img
   
-  push_demo_image:
+  build_and_push_image:
     docker:
       - image: google/cloud-sdk:latest
     working_directory: ~/demo
@@ -111,9 +98,10 @@ jobs:
       - *setup_workspace
       - *load_version
       - *setup_docker_layer_caching
+      - *docker_login_dt
       - *auth_google
       - run: apt install make -y
-      - run: make upload
+      - run: make build-and-upload
 
   deploy_demo_argo:
     docker:
@@ -172,17 +160,13 @@ workflows:
   deploy-pipeline:
     jobs:
       - checkout_code_upver
-      - build_demo_image:
+      - build_and_push_image:
           requires:
             - checkout_code_upver
           <<: *filter_master
-      - push_demo_image:
-          requires:
-            - build_demo_image
-          <<: *filter_master
       - deploy_demo_argo:
           requires:
-            - push_demo_image
+            - build_and_push_image
           <<: *filter_master
       - test_demo_servers_up:
           requires:

@@ -28,3 +28,6 @@ upload: upload-no-latest
 	@if [ ${CIRCLE_BRANCH} = "master" ]; then \
 		gcloud docker -- push us.gcr.io/rookout/dt-java:latest;\
 	fi
+
+build-and-upload: build-img upload
+
