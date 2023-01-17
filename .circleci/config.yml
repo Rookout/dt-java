@@ -35,15 +35,13 @@ references:
     setup_remote_docker:
       docker_layer_caching: true
 
+ 
   setup_build_tools: &setup_build_tools
     run:
       command: |
         mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-        sudo apt update && sudo apt-get install python3 python3-setuptools python3-dev build-essential libpq-dev libffi-dev libssl-dev python3-pip
         python3 -m pip install --upgrade --user "setuptools<66.0.0" six        
-        git clone git@github.com:Rookout/build_tools.git
-        python3 -m pip install -r build_tools/requirements.txt --user
-        python3 build_tools/setup.py install --user
+        pip install -e git+ssh://git@github.com/Rookout/build_tools.git#egg=rookout_build_tools
 
   setup_make: &setup_make
     run: sudo apt install make
@@ -70,15 +68,17 @@ jobs:
 
   checkout_code_upver:
     docker:
-      - image: cimg/openjdk:8.0-browsers
+      - image: python:3.8
     working_directory: ~/demo
     steps:
       - *checkout_default_wd
       - *setup_workspace
       - *setup_build_tools
       - add_ssh_keys
-      - run: mkdir -p ~/demo/workspace
-      - run: python3 ~/demo/build_tools/rbt.py version get-next > ~/demo/workspace/VERSION
+      - run:
+          command: |
+            mkdir -p ~/demo/workspace
+            rbt version get-next > ~/demo/workspace/VERSION
       - save_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
@@ -86,7 +86,6 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - build_tools
             - workspace/VERSION
   
   build_and_push_image:
