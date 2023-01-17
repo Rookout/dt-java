@@ -19,7 +19,7 @@ run-local:
 	java  -javaagent:rook.jar -jar build/libs/tutorial-1.0.0.jar
 
 build-img:
-	docker build -t us.gcr.io/rookout/dt-java:latest --t us.gcr.io/rookout/dt-java:${PUBLISH_VERSION} --build-arg DT_SAAS_ADDRESS=${DT_SAAS_ADDRESS} --build-arg GIT_COMMIT=${GIT_COMMIT} --build-arg GIT_ORIGIN=${GIT_ORIGIN} .
+	docker build -t us.gcr.io/rookout/dt-java:latest -t us.gcr.io/rookout/dt-java:${PUBLISH_VERSION} --build-arg DT_SAAS_ADDRESS=${DT_SAAS_ADDRESS} --build-arg GIT_COMMIT=${GIT_COMMIT} --build-arg GIT_ORIGIN=${GIT_ORIGIN} .
 
 upload-no-latest:
 	gcloud docker -- push us.gcr.io/rookout/dt-java:${PUBLISH_VERSION}
