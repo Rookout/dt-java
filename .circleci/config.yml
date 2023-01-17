@@ -110,9 +110,9 @@ jobs:
       - *load_cache
       - *setup_workspace
       - *load_version
-      - *setup_make
       - *setup_docker_layer_caching
       - *auth_google
+      - run: apt install make -y
       - run: make upload
 
   deploy_demo_argo:
