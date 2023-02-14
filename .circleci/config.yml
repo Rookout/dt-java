@@ -147,7 +147,7 @@ jobs:
 
   notify_slack:
     docker:
-        - image: cimg/openjdk:8.0-browsers
+        - image: python:3.8
     working_directory: ~/demo
     steps:
       - *setup_build_tools
