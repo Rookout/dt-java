@@ -119,11 +119,11 @@ jobs:
       - run: cd gitops-demo && git add argocd/apps/values.yaml
       - run: cd gitops-demo && git commit -m "update dt-java $NEW_VERSION"
       - run: cd gitops-demo && git push https://sonariorobot:$GITHUB_TOKEN@github.com/Rookout/gitops-demo.git staging
-      #- run: cd gitops-demo && git checkout production && git pull
-      #- run: PUBLISH_VERSION=$(echo $NEW_VERSION | sed 's/inner-999/1/g') yq -i -v '.dynatraceJava.image.tag = strenv(PUBLISH_VERSION)' gitops-demo/argocd/apps/values.yaml
-      #- run: cd gitops-demo && git add argocd/apps/values.yaml
-      #- run: cd gitops-demo && git commit -m "update dt-java $NEW_VERSION"
-      #- run: cd gitops-demo && git push https://sonariorobot:$GITHUB_TOKEN@github.com/Rookout/gitops-demo.git production
+      - run: cd gitops-demo && git checkout production && git pull
+      - run: PUBLISH_VERSION=$(echo $NEW_VERSION | sed 's/inner-999/1/g') yq -i -v '.dynatraceJava.image.tag = strenv(PUBLISH_VERSION)' gitops-demo/argocd/apps/values.yaml
+      - run: cd gitops-demo && git add argocd/apps/values.yaml
+      - run: cd gitops-demo && git commit -m "update dt-java $NEW_VERSION"
+      - run: cd gitops-demo && git push https://sonariorobot:$GITHUB_TOKEN@github.com/Rookout/gitops-demo.git production
 
   test_demo_servers_up:
     docker:
