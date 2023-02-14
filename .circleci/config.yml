@@ -151,8 +151,7 @@ jobs:
     working_directory: ~/demo
     steps:
       - *setup_build_tools
-      - run: python3 ~/demo/build_tools/rbt.py notify deployment -t demo-deployed
-
+      - run: rbt notify deployment -t demo-deployed
 
 workflows:
   version: 2
