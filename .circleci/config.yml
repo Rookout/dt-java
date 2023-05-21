@@ -5,7 +5,7 @@ references:
     run:
       command: |
         echo ${GOOGLE_AUTH} > gcp-key.json && gcloud auth activate-service-account --key-file gcp-key.json
-        gcloud --quiet config set project ${GOOGLE_PROJECT_ID} && gcloud docker --authorize-only
+        gcloud --quiet config set project ${GOOGLE_PROJECT_ID} && gcloud auth configure-docker us-central1-docker.pkg.dev
 
   disable_strict_git: &disable_strict_git
     run: mkdir -p ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
