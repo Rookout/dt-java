@@ -68,7 +68,7 @@ class Download extends DefaultTask {
 
 
 task downloadRookout(type: Download) {
-    sourceUrl = "https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.rookout&a=rook&v=0.1.251"
+    sourceUrl = "https://search.maven.org/remote_content?g=com.rookout&a=rook&v=0.1.256"
     target = new File('rook.jar')
 }
 
